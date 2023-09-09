@@ -20,117 +20,110 @@ this an overview of the API routes and their functionalities.
   "password": "your_password",
   "passwordConfirm": "your_password_confirmation"
 }
+```
+### Log In
+**Route**: `POST /api/v1/Users/login`
 
-Log In
-Route: POST /api/v1/Users/login
+**Description**: Log in an existing user.
 
-Description: Log in an existing user.
+**Request Body**:
 
-Request Body:
-
-json
-Copy code
+```json
 {
   "email": "your_email@example.com",
   "password": "your_password"
 }
+```
+### Log Out
+**Route**: `GET /api/v1/Users/logout`
 
-Log Out
-Route: GET /api/v1/Users/logout
+**Description**: Log out the currently authenticated user.
 
-Description: Log out the currently authenticated user.
 
-Delete Account
-Route: DELETE /api/v1/Users/deleteMe
+### Delete Account 
+**Route**: `DELETE /api/v1/Users/deleteMe`
 
-Description: Delete the account of the currently authenticated user.
+**Description**: Delete the account of the currently authenticated user.
 
-Update Password
-Route: PATCH /api/v1/Users/updatedPassword
+### Update Password
+**Route**: `PATCH /api/v1/Users/updatedPassword`
 
-Description: Update the password of the currently authenticated user.
+**Description**: Update the password of the currently authenticated user.
 
-Request Body:
-
-json
+**Request Body**:
+```json
 {
   "currentPassword": "your_current_password",
   "newPassword": "your_new_password",
   "passwordConfirm": "your_password_confirmation"
 }
+```
+### Forgot Password
+**Route**: `POST /api/v1/Users/forgetPassword`
 
-Forgot Password
-Route: POST /api/v1/Users/forgetPassword
+**Description**: Initiate the process to reset the password. An email will be sent with reset instructions.
 
-Description: Initiate the process to reset the password. An email will be sent with reset instructions.
-
-Request Body:
-
-json
+**Request Body**:
+```json
 {
   "email": "your_email@example.com"
 }
+```
 
-Reset Password
-Route: POST /api/v1/Users/resetPassword/:token
+### Reset Password
+**Route**: `POST /api/v1/Users/resetPassword/:token`
 
-Description: Reset the password using the provided reset token.
+**Description**: Reset the password using the provided reset token.
 
-Request Body:
-
-json
-Copy code
+**Request Body**:
+```json
 {
   "password": "your_new_password",
   "passwordConfirm": "your_password_confirmation"
 }
+```
 
+## Note Routes
+### Get All Notes
+**Route**: `GET /api/v1/Notes`
 
-Description: Retrieve a specific user's information by their ID.
+**Description**: Retrieve a list of all notes related to currently authenticated user.
 
-Note Routes
-Get All Notes
-Route: GET /api/v1/Notes
+### Create a Note
+**Route**: `POST /api/v1/Notes/create-Note`
 
-Description: Retrieve a list of all notes related to currently authenticated user.
+**Description**: Create a new note to currently authenticated user.
 
-Create a Note
-Route: POST /api/v1/Notes/create-Note
-
-Description: Create a new note to currently authenticated user.
-
-Request Body:
-
-json
-Copy code
+**Request Body**:
+```jsonCopy code
 {
   "title": "Note Title",
   "content": "Note Content"
 }
-Get Note by ID
-Route: GET /api/v1/Notes/:id
+```
 
-Description: Retrieve a specific note's information by its ID.
+### Get Note by ID
+**Route**: `GET /api/v1/Notes/:id`
+**Description**: Retrieve a specific note's information by its ID.
 
-Update Note by ID
-Route: PATCH /api/v1/Notes/:id
+### Update Note by ID
+**Route**: `PATCH /api/v1/Notes/:id`
 
-Description: Update a specific note's information by its ID.
+**Description**: Update a specific note's information by its ID.
 
-Request Body:
+**Request Body**:
 
-json
-Copy code
+```json
 {
   "title": "Updated Note Title",
   "content": "Updated Note Content"
 }
-Delete Note by ID
-Route: DELETE /api/v1/Notes/:id
+```
+### Delete Note by ID
+**Route**: `DELETE /api/v1/Notes/:id`
 
-Description: Delete a specific note by its ID.
+**Description**: Delete a specific note by its ID.
 
 Please note that for routes that require authentication (authController.protect), you should include the user's token in the request headers as an "Authorization" header.
 
 For further details on the request and response formats, as well as error handling, refer to the respective controllers and middleware in the codebase.
-
