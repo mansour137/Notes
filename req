@@ -1,0 +1,8 @@
+
+- (SORTING)desc & ase notes with dates ^^^^^^^^^^^^^^^^^^^^^^^
+- HANDEL SOME ERRORS LIKE "JWT MALFORED" ^^^^^^^^^^^^^^^^^^^^^
+- send cookies when login ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- destroy cookies when logout ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- makes relations between notes and user (1 => many) ^^^^^^^^^
+- gender to the schema ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- add first and second name ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
