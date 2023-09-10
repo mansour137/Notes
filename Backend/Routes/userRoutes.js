@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/sign_up' , authController.signUp )
 router.post('/login' , authController.login )
-router.get('/logout' , authController.logout )
+router.get('/logout' , authController.protect, authController.logout )
 router.delete('/deleteMe' , authController.protect,authController.deleteMe )
 router.patch('/updatedPassword' , authController.protect,authController.updatePassword )
 router.post('/forgetPassword' , authController.forgetPassword )
