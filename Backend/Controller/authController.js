@@ -164,11 +164,13 @@ exports.resetPassword = catchAsync(async (req,res,next)=>{
 })
 exports.deleteMe = catchAsync(async (req,res,next)=>{
     const user = await Users.findById(req.user.id);
+    console.log(user);
     if(!user)
         return next(new AppError('please login' , 401));
 
     user.active = false;
     user.save();
+    res.clearCookie('jwt');
     res.status(200).json({
         status:'User are deleted successfully'
     })
