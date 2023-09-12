@@ -13,7 +13,8 @@ const generateToken = (id) =>{
     })
 }
 
-const sendToken = (user , statusCode , res)=>{
+const sendToken = (user , statusCode , res )=>{
+
     const token = generateToken(user._id);
     const data = parseInt(process.env.JWT_EXPIRES_IN , 10)
     const expirationDate = new Date(Date.now() + data * 24 * 60 * 60 * 1000);
@@ -35,14 +36,16 @@ const sendToken = (user , statusCode , res)=>{
         });
 }
 
+
 exports.protect = catchAsync(async (req,res,next)=>{
     let token;
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
         token = req.headers.authorization.split(' ')[1];
     }
-    if(!token)
-        return next(new AppError('you are not logged please log in to access' , 401))
-
+    if(!token) {
+            return next(new AppError('you are not logged please log in to access', 401))
+    }
+    req.token = token;
     const decoded = await promisify(jwt.verify)(token , process.env.SECRET_JWT);
 
     const userExist = await Users.findById(decoded.id).select('+active');
@@ -59,6 +62,12 @@ exports.protect = catchAsync(async (req,res,next)=>{
     req.user = userExist;
     next()
 })
+exports.chLogin = (req, res, next) => {
+    if(req.cookies.jwt){
+       return  res.status(302).json({ message: 'You are already logged in.',token:req.cookies.jwt });
+    }
+    next();
+}
 
 exports.logout = catchAsync(async (req, res, next) => {
     res.clearCookie('jwt');
@@ -85,16 +94,18 @@ exports.signUp = catchAsync(async (req,res,next)=>{
         passwordConfirm,
         email
     });
-    sendToken(newUser , 200 , res)
+    sendToken(newUser , 200 , res )
 })
+
 exports.login = catchAsync(async (req,res,next)=>{
+
     const {email , password} = req.body;
     const user = await Users.findOne({email : email}).select('+password');
-
     if(!user || !await user.comparePassword(password , user.password)) {
         return next(new AppError('invalid email or password' , 401  ))
     }
-    sendToken(user , 200 , res)
+    req.chUser = user;
+    sendToken(user , 200 , res )
 })
 
 exports.forgetPassword = catchAsync(async (req, res, next) => {
@@ -144,7 +155,7 @@ exports.resetPassword = catchAsync(async (req,res,next)=>{
     }
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
-    user.passwordResetToken = undefined
+    user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
     res.status(200).json({
