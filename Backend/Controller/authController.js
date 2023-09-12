@@ -188,7 +188,9 @@ exports.updatePassword = catchAsync(async (req,res,next)=>{
     user.password = newPassword;
     user.passwordConfirm = passwordConfirm;
     user.save();
+    res.clearCookie('jwt');
     res.status(200).json({
+        message:"login again",
         status:'Password updated successfully'
     })
 })
